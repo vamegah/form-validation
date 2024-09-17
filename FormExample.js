@@ -9,7 +9,7 @@ import * as Yup from 'yup';
 const FormExample = () => {
   return (
     <View style={styles.mainContainer}>
-      <Text style={styles.title}>Registration Form</Text>
+      <Text style={styles.title} testID='formTitle'>Registration Form</Text>
    
     </View>
   );
