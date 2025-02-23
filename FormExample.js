@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, ScrollView, CheckBox } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
@@ -20,6 +20,10 @@ const validationSchema = Yup.object({
     confirmPassword: Yup.string()
         .oneOf([Yup.ref('password'), null], 'Passwords must match')
         .required('Confirm Password is required'),
+    address: Yup.string().required('Address is required'),
+    termsAccepted: Yup.boolean()
+        .oneOf([true], 'You must accept the terms and conditions')
+        .required('You must accept the terms and conditions')
 });
 
 
@@ -34,6 +38,9 @@ const FormExample = () => {
                     phone: '',
                     password: '',
                     confirmPassword: '',
+                    address: '',
+                    termsAccepted: false,
+
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(values) => {
@@ -98,6 +105,32 @@ const FormExample = () => {
                                 <Text style={styles.error}>{errors.confirmPassword}</Text>
                             )}
                         </View>
+                        <View testID='formAddress'>
+                            <Text style={styles.label}>Confirm Password</Text>
+                            <TextInput
+                                style={styles.input}
+                                secureTextEntry
+                                onChangeText={handleChange('address')}
+                                onBlur={handleBlur('address')}
+                                value={values.address}
+                            />
+                            {touched.address && errors.address && (
+                                <Text style={styles.error}>{errors.address}</Text>
+                            )}
+                        </View>
+                        <View style={styles.checkboxContainer} testID='formTerms'>
+                            <CheckBox
+                                value={values.termsAccepted}
+                                onValueChange={handleChange('termsAccepted')}
+                                onBlur={handleBlur('termsAccepted')}
+                            />
+                            <Text style={styles.checkboxLabel}>I agree to the terms and conditions</Text>
+                            {touched.termsAccepted && errors.termsAccepted && (
+                                <Text style={styles.error}>{errors.termsAccepted}</Text>
+                            )}
+
+                        </View>
+
                         <Button onPress={handleSubmit} title="Submit" color="#007BFF" />
 
                     </ScrollView>
